@@ -10,7 +10,8 @@ private:
     // when show(): counter < shapes.Count -> draw from shapes[last]
     // when undo(): counter < shapes.Count -> delete from list; counter = shapes.Count -> delete + undraw
 public:
-    BlackBoard();
+    BlackBoard() = default;
     void show();
+    void undo();
 };
 
