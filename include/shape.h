@@ -11,5 +11,6 @@ class Shape {
 protected:
     Point center;
 public:
+    virtual ~Shape() = default;
     virtual void draw() = 0;
 };

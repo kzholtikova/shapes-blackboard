@@ -5,6 +5,7 @@
 class Line : Shape {
 public:
     Line(const Point& startPoint, int lineLength, int angle);
+    static std::unique_ptr<Shape> create(const std::string& args);
 
     void draw() override;
 

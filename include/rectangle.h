@@ -9,6 +9,7 @@ private:
     int length;
 public:
     Rectangle(const Point& rectangleCenter, int rectangleWidth, int rectangleLength);
+    static std::unique_ptr<Shape> create(const std::string& args);
 
     void draw() override;
 };
