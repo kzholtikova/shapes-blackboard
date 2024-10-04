@@ -2,13 +2,11 @@
 #include "shape.h"
 
 
-class Triangle : Shape {
+class Triangle : public Shape {
 private:
-    Point vertice;
     int height;
 public:
-    Triangle(const Point& verticePoint, int triangleHeight);
-    static std::unique_ptr<Shape> create(const std::string& args);
+    Triangle(int x, int y, int triangleHeight) : Shape(x, y), height(triangleHeight) { };
 
     void draw() override;
 };

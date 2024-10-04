@@ -2,13 +2,11 @@
 #include"shape.h"
 
 
-class Circle : Shape {
+class Circle : public Shape {
 private:
-    Point center;
     int radius;
 public:
-    Circle(const Point& circleCenter, int circleRadius);
-    static std::unique_ptr<Shape> create(const std::string& args);
+    Circle(int x, int y, int circleRadius) : Shape(x, y), radius(circleRadius) { };
 
     void draw() override;
 };

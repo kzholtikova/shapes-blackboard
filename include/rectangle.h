@@ -2,14 +2,12 @@
 #include "shape.h"
 
 
-class Rectangle : Shape {
+class Rectangle : public Shape {
 private:
-    Point center;
     int width;
     int length;
 public:
-    Rectangle(const Point& rectangleCenter, int rectangleWidth, int rectangleLength);
-    static std::unique_ptr<Shape> create(const std::string& args);
+    Rectangle(int x, int y, int rectangleWidth, int rectangleLength) : Shape(x, y), width(rectangleWidth), length(rectangleLength) { };
 
     void draw() override;
 };

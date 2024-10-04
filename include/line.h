@@ -1,17 +1,10 @@
 #pragma once
-#include "shape.h"
+#include "rectangle.h"
 
 
-class Line : Shape {
+class Line : public Rectangle {
 public:
-    Line(const Point& startPoint, int lineLength, int angle);
-    static std::unique_ptr<Shape> create(const std::string& args);
+    Line(int x, int y, int size, int angle) : Rectangle(x, y, angle == 0 ? size : angle, angle == 0 ? angle : size) { };
 
     void draw() override;
-
-    enum Orientation { Vertical=90, Horizontal=0 };
-private:
-    Point start;
-    int length;
-    Orientation orientation;
 };
