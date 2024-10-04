@@ -5,8 +5,13 @@
 
 class ShapeFactory {
 private:
-    using shapeBuilder = std::unique_ptr<Shape> (*)(const std::string&);
-    static std::map<std::string, shapeBuilder> shapeBuilders;
+    std::map<std::string, std::regex> shapesParameters;
+
+    std::string validateShape(const std::string& args);
+    std::vector<int> validateParameters(const std::string& shape, const std::string& parametersStr);
 public:
-    static std::unique_ptr<Shape> build(const std::string& shape, const std::string& args);
+    ShapeFactory() = default;
+    ShapeFactory(int boardWidth, int boardLength);
+
+    Shape* createShape(const std::string& args);
 };

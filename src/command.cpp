@@ -1,7 +1,5 @@
 #include "../include/command.h"
-#include "../include/shapeFactory.h"
 #include <filesystem>
-#include <regex>
 
 void Command::execute(const std::string& args, BlackBoard &board) {
     if (!args.empty())
@@ -21,12 +19,7 @@ void ShapesCommand::execute(const std::string& args, BlackBoard& board) {
 }
 
 void AddCommand::execute(const std::string& args, BlackBoard &board) {
-    size_t firstSpace = args.find(' ');
-    if (firstSpace == std::string::npos)
-        throw std::invalid_argument("Shape parameters must be specified.");
-
-    std::string shape = args.substr(0, firstSpace), shapeParameters = args.substr(firstSpace + 1);
-    ShapeFactory::build(shape, args); // add to board
+    board.addShape(board.getShapeFactory()->createShape(args));
 }
 
 void UndoCommand::execute(const std::string& args, BlackBoard& board) {

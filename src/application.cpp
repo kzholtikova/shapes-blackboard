@@ -1,8 +1,4 @@
 #include "../include/application.h"
-#include "../include/circle.h"
-#include "../include/line.h"
-#include "../include/rectangle.h"
-#include "../include/triangle.h"
 #include <sstream>
 
 std::map<std::string, Command*> Application::commands = {
@@ -14,13 +10,6 @@ std::map<std::string, Command*> Application::commands = {
     {"clear", new ClearCommand},
     {"save", new SaveCommand},
     {"load", new LoadCommand},
-};
-
-std::map<std::string, Application::shapeBuilder> Application::shapeBuilders = {
-    {"circle", &Circle::create},
-    {"line", &Line::create},
-    {"rectangle", &Rectangle::create},
-    {"triangle", &Triangle::create}
 };
 
 void Application::run() {
