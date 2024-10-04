@@ -49,6 +49,12 @@ cmake_ninja_workdir = /Users/owner/Storage/KSE/IT-Disciplines/OPD/shapes-blackbo
 
 build cmake_object_order_depends_target_shapes_blackboard: phony || CMakeFiles/shapes_blackboard.dir
 
+build CMakeFiles/shapes_blackboard.dir/src/application.cpp.o: CXX_COMPILER__shapes_blackboard_unscanned_Debug /Users/owner/Storage/KSE/IT-Disciplines/OPD/shapes-blackboard/src/application.cpp || cmake_object_order_depends_target_shapes_blackboard
+  DEP_FILE = CMakeFiles/shapes_blackboard.dir/src/application.cpp.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -mmacosx-version-min=14.5 -fcolor-diagnostics
+  OBJECT_DIR = CMakeFiles/shapes_blackboard.dir
+  OBJECT_FILE_DIR = CMakeFiles/shapes_blackboard.dir/src
+
 build CMakeFiles/shapes_blackboard.dir/src/blackBoard.cpp.o: CXX_COMPILER__shapes_blackboard_unscanned_Debug /Users/owner/Storage/KSE/IT-Disciplines/OPD/shapes-blackboard/src/blackBoard.cpp || cmake_object_order_depends_target_shapes_blackboard
   DEP_FILE = CMakeFiles/shapes_blackboard.dir/src/blackBoard.cpp.o.d
   FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -mmacosx-version-min=14.5 -fcolor-diagnostics
@@ -63,12 +69,6 @@ build CMakeFiles/shapes_blackboard.dir/src/circle.cpp.o: CXX_COMPILER__shapes_bl
 
 build CMakeFiles/shapes_blackboard.dir/src/command.cpp.o: CXX_COMPILER__shapes_blackboard_unscanned_Debug /Users/owner/Storage/KSE/IT-Disciplines/OPD/shapes-blackboard/src/command.cpp || cmake_object_order_depends_target_shapes_blackboard
   DEP_FILE = CMakeFiles/shapes_blackboard.dir/src/command.cpp.o.d
-  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -mmacosx-version-min=14.5 -fcolor-diagnostics
-  OBJECT_DIR = CMakeFiles/shapes_blackboard.dir
-  OBJECT_FILE_DIR = CMakeFiles/shapes_blackboard.dir/src
-
-build CMakeFiles/shapes_blackboard.dir/src/commandManager.cpp.o: CXX_COMPILER__shapes_blackboard_unscanned_Debug /Users/owner/Storage/KSE/IT-Disciplines/OPD/shapes-blackboard/src/commandManager.cpp || cmake_object_order_depends_target_shapes_blackboard
-  DEP_FILE = CMakeFiles/shapes_blackboard.dir/src/commandManager.cpp.o.d
   FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -mmacosx-version-min=14.5 -fcolor-diagnostics
   OBJECT_DIR = CMakeFiles/shapes_blackboard.dir
   OBJECT_FILE_DIR = CMakeFiles/shapes_blackboard.dir/src
@@ -97,6 +97,12 @@ build CMakeFiles/shapes_blackboard.dir/src/shape.cpp.o: CXX_COMPILER__shapes_bla
   OBJECT_DIR = CMakeFiles/shapes_blackboard.dir
   OBJECT_FILE_DIR = CMakeFiles/shapes_blackboard.dir/src
 
+build CMakeFiles/shapes_blackboard.dir/src/shapeFactory.cpp.o: CXX_COMPILER__shapes_blackboard_unscanned_Debug /Users/owner/Storage/KSE/IT-Disciplines/OPD/shapes-blackboard/src/shapeFactory.cpp || cmake_object_order_depends_target_shapes_blackboard
+  DEP_FILE = CMakeFiles/shapes_blackboard.dir/src/shapeFactory.cpp.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -mmacosx-version-min=14.5 -fcolor-diagnostics
+  OBJECT_DIR = CMakeFiles/shapes_blackboard.dir
+  OBJECT_FILE_DIR = CMakeFiles/shapes_blackboard.dir/src
+
 build CMakeFiles/shapes_blackboard.dir/src/triangle.cpp.o: CXX_COMPILER__shapes_blackboard_unscanned_Debug /Users/owner/Storage/KSE/IT-Disciplines/OPD/shapes-blackboard/src/triangle.cpp || cmake_object_order_depends_target_shapes_blackboard
   DEP_FILE = CMakeFiles/shapes_blackboard.dir/src/triangle.cpp.o.d
   FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -mmacosx-version-min=14.5 -fcolor-diagnostics
@@ -111,7 +117,7 @@ build CMakeFiles/shapes_blackboard.dir/src/triangle.cpp.o: CXX_COMPILER__shapes_
 #############################################
 # Link the executable shapes_blackboard
 
-build shapes_blackboard: CXX_EXECUTABLE_LINKER__shapes_blackboard_Debug CMakeFiles/shapes_blackboard.dir/src/blackBoard.cpp.o CMakeFiles/shapes_blackboard.dir/src/circle.cpp.o CMakeFiles/shapes_blackboard.dir/src/command.cpp.o CMakeFiles/shapes_blackboard.dir/src/commandManager.cpp.o CMakeFiles/shapes_blackboard.dir/src/line.cpp.o CMakeFiles/shapes_blackboard.dir/src/main.cpp.o CMakeFiles/shapes_blackboard.dir/src/rectangle.cpp.o CMakeFiles/shapes_blackboard.dir/src/shape.cpp.o CMakeFiles/shapes_blackboard.dir/src/triangle.cpp.o
+build shapes_blackboard: CXX_EXECUTABLE_LINKER__shapes_blackboard_Debug CMakeFiles/shapes_blackboard.dir/src/application.cpp.o CMakeFiles/shapes_blackboard.dir/src/blackBoard.cpp.o CMakeFiles/shapes_blackboard.dir/src/circle.cpp.o CMakeFiles/shapes_blackboard.dir/src/command.cpp.o CMakeFiles/shapes_blackboard.dir/src/line.cpp.o CMakeFiles/shapes_blackboard.dir/src/main.cpp.o CMakeFiles/shapes_blackboard.dir/src/rectangle.cpp.o CMakeFiles/shapes_blackboard.dir/src/shape.cpp.o CMakeFiles/shapes_blackboard.dir/src/shapeFactory.cpp.o CMakeFiles/shapes_blackboard.dir/src/triangle.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -mmacosx-version-min=14.5
   OBJECT_DIR = CMakeFiles/shapes_blackboard.dir
   POST_BUILD = :
