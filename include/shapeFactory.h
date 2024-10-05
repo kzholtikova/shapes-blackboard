@@ -13,5 +13,5 @@ public:
     ShapeFactory() = default;
     ShapeFactory(int boardWidth, int boardLength);
 
-    Shape* createShape(const std::string& args);
+    std::shared_ptr<Shape> createShape(const std::string& args);
 };

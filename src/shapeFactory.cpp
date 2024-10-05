@@ -1,32 +1,33 @@
 #include <sstream>
 #include "../include/shapeFactory.h"
 #include "../include/circle.h"
-#include "../include/line.h"
+#include "../include/rectangle.h"
 #include "../include/triangle.h"
 
 
 ShapeFactory::ShapeFactory(int boardWidth, int boardLength) {
-    std::string pointRegex = "^[1-" + std::to_string(boardWidth) + "] [1-" + std::to_string(boardLength) + "]";
+    std::string pointRegex = "^[0-" + std::to_string(boardWidth) + "] [0-" + std::to_string(boardLength) + "]";
 
-    shapesParameters["circle"] = pointRegex + " [1-" + std::to_string(boardWidth / 2) + "]$";
+    shapesParameters["circle"] = pointRegex + " [2-" + std::to_string(boardWidth / 2) + "]$";
     shapesParameters["line"] = pointRegex + " [1-9]+ [0|90]$";
-    shapesParameters["rectangle"] = pointRegex + " " + pointRegex + "$";
+    shapesParameters["rectangle"] = pointRegex + " [1-" + std::to_string(boardWidth) + "] [1-" + std::to_string(boardLength) + "]";
     shapesParameters["triangle"] = pointRegex + " [1-" + std::to_string(boardLength) + "]$";
 }
 
-Shape* ShapeFactory::createShape(const std::string& args) {
+std::shared_ptr<Shape> ShapeFactory::createShape(const std::string& args) {
     std::string shape = validateShape(args);
-    std::vector<int> parameters = validateParameters(args.substr(shape.size()));
+    std::vector<int> parameters = validateParameters(shape, args.substr(shape.size()));
 
     if (shape == "circle")
-        return new Circle(parameters[0], parameters[1], parameters[2]);
+        return  std::make_shared<Circle>(parameters[0], parameters[1], parameters[2]);
     if (shape == "line")
-        return new Line(parameters[0], parameters[1], parameters[2], parameters[3]);
+        return std::make_shared<Line>(parameters[0], parameters[1], parameters[2], parameters[3]);
     if (shape == "rectangle")
-        return new Rectangle(parameters[0], parameters[1], parameters[2], parameters[3]);
+        return std::make_shared<Rectangle>(parameters[0], parameters[1], parameters[2], parameters[3]);
     if (shape == "triangle")
-        return new Triangle(parameters[0], parameters[1], parameters[2]);
-    return nullptr;
+        return std::make_shared<Triangle>(parameters[0], parameters[1], parameters[2]);
+
+    throw std::invalid_argument("Invalid shape.");
 }
 
 

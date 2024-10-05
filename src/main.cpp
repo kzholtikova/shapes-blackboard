@@ -1,15 +1,15 @@
 #include "../include/application.h"
+#include "../include/circle.h"
+#include "../include/rectangle.h"
+#include "../include/triangle.h"
 
 int main() {
-    Application app;
-    app.run();
+    BlackBoard board;
+    board.addShape(std::make_shared<Triangle>(5, 1, 1));
+    board.show();
 
-    try {
-        Application::getCommand(command)->execute(args);
-    } catch (const std::invalid_argument& e) {
-        std::cerr << "Error: " << e.what() << "\n";
-        std::exit(EXIT_FAILURE);
-    }
+//    Application app;
+//    app.run();
 
     return 0;
 }

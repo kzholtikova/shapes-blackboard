@@ -2,6 +2,7 @@
 #include "command.h"
 #include <map>
 
+using grid = std::vector<std::vector<std::vector<std::weak_ptr<Shape>>>>;
 
 class Application {
 private:
