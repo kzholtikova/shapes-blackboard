@@ -30,6 +30,9 @@ void AddCommand::execute(const std::string& args, BlackBoard &board) {
 
 void UndoCommand::execute(const std::string& args, BlackBoard& board) {
     Command::execute(args, board);
+    if (board.isEmpty())
+        throw std::invalid_argument("Nothing to undo!");
+    board.removeLastShape();
 }
 
 void ClearCommand::execute(const std::string& args, BlackBoard& board) {
