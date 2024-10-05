@@ -16,6 +16,10 @@ void ListCommand::execute(const std::string& args, BlackBoard& board) {
 
 void ShapesCommand::execute(const std::string& args, BlackBoard& board) {
     Command::execute(args, board);
+    std::cout << "circle coordinates radius\n"
+              << "triangle coordinates height\n"
+              << "rectangle coordinates width length\n"
+              << "line coordinates length angle(0/ 90)\n";
 }
 
 void AddCommand::execute(const std::string& args, BlackBoard &board) {
