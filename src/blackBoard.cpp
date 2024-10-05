@@ -2,7 +2,7 @@
 
 
 BlackBoard::BlackBoard() {
-    width = 166, length = 10;
+    width = 165, length = 10;
     shapeFactory = std::make_unique<ShapeFactory>(width, length);
     boardGrid = grid(length, std::vector<std::vector<std::weak_ptr<Shape>>>(width));
 }

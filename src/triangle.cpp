@@ -7,12 +7,19 @@ void Triangle::draw(grid& grid) {
     grid[vertice.y][vertice.x].emplace_back(self);
     grid[vertice.y + height][vertice.x].emplace_back(self);
 
-    for (int i = 1; i < height + 1; i++) {
-        grid[vertice.y + i][vertice.x - i].emplace_back(self);
-        grid[vertice.y + i][vertice.x + i].emplace_back(self);
-        if (i != vertice.y + height) {
-            grid[vertice.y + height][vertice.x - i].emplace_back(self);
-            grid[vertice.y + height][vertice.x + i].emplace_back(self);
+    for (int i = 0; i < height + 1; i++) {
+        if (vertice.y + i < grid.size() && vertice.x - i >= 0)
+            grid[vertice.y + i][vertice.x - i].emplace_back(self);
+
+        if (i != 0 && vertice.y + i < grid.size() && vertice.x + i < grid[0].size())
+            grid[vertice.y + i][vertice.x + i].emplace_back(self);
+
+        if (i != vertice.y + height && vertice.y + height < grid.size()) {
+            if (vertice.x - 1 >= 0)
+                grid[vertice.y + height][vertice.x - i].emplace_back(self);
+
+            if (i != 0 && vertice.x + 1 < grid[0].size())
+                grid[vertice.y + height][vertice.x + i].emplace_back(self);
         }
     }
 }

@@ -5,7 +5,9 @@
 
 int main() {
     BlackBoard board;
-    board.addShape(std::make_shared<Triangle>(5, 1, 1));
+    board.addShape(std::make_shared<Circle>(150, 3, 5));
+    board.addShape(std::make_shared<Triangle>(150, 3, 5));
+    board.addShape(std::make_shared<Rectangle>(150, 3, 8, 4));
     board.show();
 
 //    Application app;
