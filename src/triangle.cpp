@@ -23,3 +23,7 @@ void Triangle::draw(grid& grid) {
         }
     }
 }
+
+void Triangle::printInfo() {
+    std::cout << id << " triangle " << vertice.toString() << " " << height;
+}

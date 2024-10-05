@@ -11,15 +11,7 @@ ShapeFactory* BlackBoard::getShapeFactory() const {
     return shapeFactory.get();
 }
 
-int BlackBoard::getWidth() const {
-    return width;
-}
-
-int BlackBoard::getLength() const {
-    return length;
-}
-
-void BlackBoard::show() const {
+void BlackBoard::draw() const {
     for (auto& col : boardGrid) {
         for (auto& cell : col)
             std::cout << (!cell.empty() ? '*' : ' ');
@@ -27,7 +19,12 @@ void BlackBoard::show() const {
     }
 }
 
-void BlackBoard::addShape(const std::shared_ptr<Shape> shape) {
+void BlackBoard::addShape(const std::shared_ptr<Shape>& shape) {
     shapes.emplace_back(shape);
     shape->draw(boardGrid);
+}
+
+void BlackBoard::listShapes() const {
+    for (const auto& shape : shapes)
+        shape->printInfo();
 }

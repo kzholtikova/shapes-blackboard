@@ -7,7 +7,7 @@ objects.
 ## Task
 Develop a console-based application which will represent a shapes board with the ability to draw
 different types of shapes on it. The main idea is that the user has an empty blackboard and can
-interact with it in a few ways: show the blackboard, place or remove some shape within the
+interact with it in a few ways: draw the blackboard, place or remove some shape within the
 blackboard or clear it completely. Additionally, the user should be able to save and load the state
 of the blackboard from the file.
 

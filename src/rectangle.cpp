@@ -20,3 +20,11 @@ void Rectangle::draw(grid& grid) {
         }
     }
 }
+
+void Rectangle::printInfo() {
+    std::cout << id << " rectangle " << vertice.toString() << " " << width << " " << length;
+}
+
+void Line::printInfo() {
+    std::cout << id << " line " << vertice.toString() << " " << (width != 0 ? width : length) << " " << (width != 0 ? 0 : 90) << "º";
+}

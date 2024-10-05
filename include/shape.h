@@ -8,6 +8,7 @@ struct Point {
     int y;
 
     Point(int x, int y) : x(x), y(y) { };
+    std::string toString() const;
 };
 
 class Shape : public std::enable_shared_from_this<Shape> {
@@ -21,4 +22,5 @@ protected:
 public:
     virtual ~Shape() = default;
     virtual void draw(grid& grid) = 0;
+    virtual void printInfo() = 0;
 };

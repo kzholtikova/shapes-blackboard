@@ -8,10 +8,12 @@ void Command::execute(const std::string& args, BlackBoard &board) {
 
 void DrawCommand::execute(const std::string& args, BlackBoard& board) {
     Command::execute(args, board);
+    board.draw();
 }
 
 void ListCommand::execute(const std::string& args, BlackBoard& board) {
     Command::execute(args, board);
+    board.listShapes();
 }
 
 void ShapesCommand::execute(const std::string& args, BlackBoard& board) {
