@@ -1,4 +1,5 @@
 #include "../include/blackBoard.h"
+#include <fstream>
 
 
 BlackBoard::BlackBoard() {
@@ -17,8 +18,18 @@ bool BlackBoard::isEmpty() const {
 
 void BlackBoard::draw() const {
     for (auto& col : boardGrid) {
-        for (auto& cell : col)
-            std::cout << (!cell.empty() ? '*' : ' ');
+        for (auto& cell : col) {
+            bool printed = false;
+            for (auto it = cell.rbegin(); it != cell.rend(); ++it) {
+                if (auto shape = it->lock()) {
+                    std::cout << shape->getId();
+                    printed = true;
+                    break;
+                }
+            }
+            if (!printed)
+                std::cout << ' ';
+        }
         std::cout << "\n";
     }
 }
@@ -38,5 +49,10 @@ void BlackBoard::removeLastShape() {
 
 void BlackBoard::listShapes() const {
     for (const auto& shape : shapes)
-        shape->printInfo();
+        std::cout << shape->toString();
+}
+
+void BlackBoard::saveShapes(std::fstream& file) const {
+    for (const auto& shape : shapes)
+        file << shape->toString() << "\n";
 }

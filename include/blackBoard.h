@@ -9,12 +9,12 @@ public:
     BlackBoard();
 
     ShapeFactory* getShapeFactory() const;
-
     bool isEmpty() const;
 
     void addShape(const std::shared_ptr<Shape>& shape);
     void removeLastShape();
     void listShapes() const;
+    void saveShapes(std::fstream& file) const;
     void draw() const;
     void clear();
 private:

@@ -1,5 +1,8 @@
 #include "../include/command.h"
+#include "../include/fileHandle.h"
+#include "../include/application.h"
 #include <filesystem>
+
 
 void Command::execute(const std::string& args, BlackBoard &board) {
     if (!args.empty())
@@ -8,6 +11,7 @@ void Command::execute(const std::string& args, BlackBoard &board) {
 
 void DrawCommand::execute(const std::string& args, BlackBoard& board) {
     Command::execute(args, board);
+    Application::clearConsole();
     board.draw();
 }
 
@@ -37,19 +41,19 @@ void UndoCommand::execute(const std::string& args, BlackBoard& board) {
 
 void ClearCommand::execute(const std::string& args, BlackBoard& board) {
     Command::execute(args, board);
-}
-
-void FileCommand::execute(const std::string& args, BlackBoard &board) {
-    if (args.size() != 1)
-        throw std::invalid_argument("Invalid number of arguments.");
+    board.clear();
 }
 
 void SaveCommand::execute(const std::string& args, BlackBoard& board) {
-    FileCommand::execute(args, board);
+    FileHandle fileHandle(args, std::ios::out);
+    board.saveShapes(fileHandle.getStream());
 }
 
 void LoadCommand::execute(const std::string& args, BlackBoard& board) {
-    FileCommand::execute(args, board);
-    if (!std::filesystem::exists(args))
-        throw std::invalid_argument("The file at " + args + " doesn't exist");
+    FileHandle fileHandle(args, std::ios::in);
+    auto& file = fileHandle.getStream();
+
+    std::string line;
+    while (std::getline(file, line))
+        AddCommand().execute(line, board);
 }

@@ -21,6 +21,8 @@ protected:
     Shape(int x, int y) : vertice(x, y), id(++lastId) { }
 public:
     virtual ~Shape() = default;
+    int getId() const;
+
     virtual void draw(grid& grid) = 0;
-    virtual void printInfo() = 0;
+    virtual std::string toString() = 0;
 };

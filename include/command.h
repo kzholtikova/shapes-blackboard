@@ -39,17 +39,12 @@ public:
     void execute(const std::string& args, BlackBoard& board) override;
 };
 
-class FileCommand: public Command {
+class SaveCommand : public Command {
 public:
     void execute(const std::string& args, BlackBoard& board) override;
 };
 
-class SaveCommand : public FileCommand {
-public:
-    void execute(const std::string& args, BlackBoard& board) override;
-};
-
-class LoadCommand : public FileCommand {
+class LoadCommand : public Command {
 public:
     void execute(const std::string& args, BlackBoard& board) override;
 };

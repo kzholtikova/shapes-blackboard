@@ -20,6 +20,6 @@ void Circle::draw(grid& grid) {
     }
 }
 
-void Circle::printInfo() {
-    std::cout << id << " circle " << vertice.toString() << " " << radius;
+std::string Circle::toString() {
+    return "circle " + vertice.toString() + " " + std::to_string(radius);
 }

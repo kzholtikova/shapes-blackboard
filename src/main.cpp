@@ -9,6 +9,8 @@ int main() {
     board.addShape(std::make_shared<Triangle>(150, 3, 5));
     board.addShape(std::make_shared<Rectangle>(150, 3, 8, 4));
     board.draw();
+    board.removeLastShape();
+    board.draw();
 
 //    Application app;
 //    app.run();

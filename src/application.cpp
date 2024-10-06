@@ -36,12 +36,7 @@ void Application::readCommand(const std::string& input, std::string& cmd, std::s
 
     args = ss.str();
 }
-//
-//std::string Application::readArguments(std::stringstream& ss) {
-//    std::string args;
-//    std::string arg;
-//    while (ss >> arg)
-//        args.push_back(arg);
-//
-//    return args;
-//}
+
+void  Application::clearConsole() {
+    std::cout << "\e[1;1H\e[2J";  // RegEx using ANSI escape codes
+}

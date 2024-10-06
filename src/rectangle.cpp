@@ -21,10 +21,10 @@ void Rectangle::draw(grid& grid) {
     }
 }
 
-void Rectangle::printInfo() {
-    std::cout << id << " rectangle " << vertice.toString() << " " << width << " " << length;
+std::string Rectangle::toString() {
+    return "rectangle " + vertice.toString() + " " + std::to_string(width) + " " + std::to_string(length);
 }
 
-void Line::printInfo() {
-    std::cout << id << " line " << vertice.toString() << " " << (width != 0 ? width : length) << " " << (width != 0 ? 0 : 90) << "º";
+std::string Line::toString() {
+    return "line " + vertice.toString() + " " + std::to_string(width != 0 ? width : length) + " " + std::to_string(width != 0 ? 0 : 90);
 }

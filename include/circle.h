@@ -9,5 +9,5 @@ public:
     Circle(int x, int y, int circleRadius) : Shape(x, y), radius(circleRadius) { };
 
     void draw(grid& grid) override;
-    void printInfo() override;
+    std::string toString() override;
 };

@@ -24,6 +24,6 @@ void Triangle::draw(grid& grid) {
     }
 }
 
-void Triangle::printInfo() {
-    std::cout << id << " triangle " << vertice.toString() << " " << height;
+std::string Triangle::toString() {
+   return "triangle " + vertice.toString() + " " + std::to_string(height);
 }
