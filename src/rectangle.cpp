@@ -20,3 +20,11 @@ void Rectangle::draw(grid& grid) {
         }
     }
 }
+
+std::string Rectangle::toString() {
+    return "rectangle " + vertice.toString() + " " + std::to_string(width) + " " + std::to_string(length);
+}
+
+std::string Line::toString() {
+    return "line " + vertice.toString() + " " + std::to_string(width != 0 ? 0 : 90) + " " + std::to_string(width != 0 ? width : length);
+}

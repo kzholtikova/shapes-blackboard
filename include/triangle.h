@@ -10,4 +10,5 @@ public:
     Triangle(int x, int y, int triangleHeight) : Shape(x, y), height(triangleHeight) { };
 
     void draw(grid& grid) override;
+    std::string toString() override;
 };

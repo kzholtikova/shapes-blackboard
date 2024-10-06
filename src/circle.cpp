@@ -19,3 +19,7 @@ void Circle::draw(grid& grid) {
             grid[vertice.y + radius - offset][vertice.x - i].emplace_back(self);
     }
 }
+
+std::string Circle::toString() {
+    return "circle " + vertice.toString() + " " + std::to_string(radius);
+}

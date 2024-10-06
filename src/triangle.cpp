@@ -23,3 +23,7 @@ void Triangle::draw(grid& grid) {
         }
     }
 }
+
+std::string Triangle::toString() {
+   return "triangle " + vertice.toString() + " " + std::to_string(height);
+}
