@@ -2,6 +2,7 @@
 #include <sstream>
 
 std::map<std::string, Command*> Application::commands = {
+    {"help", new HelpCommand},
     {"draw", new DrawCommand},
     {"list", new ListCommand},
     {"shapes", new ShapesCommand},
@@ -14,7 +15,7 @@ std::map<std::string, Command*> Application::commands = {
 
 void Application::run() {
     std::string input;
-    std::cout << "Enter command (/ exit): ";
+    std::cout << "Enter command (help/ exit): ";
     while (std::getline(std::cin, input) && input != "exit") {
         std::string cmd, args;
         try {
@@ -24,7 +25,7 @@ void Application::run() {
             std::cout << "Error: " << e.what() << std::endl;
         }
 
-        std::cout << "Enter command (/ exit): ";
+        std::cout << "Enter command (help/ exit): ";
     }
 }
 
@@ -32,11 +33,9 @@ void Application::readCommand(const std::string& input, std::string& cmd, std::s
     std::stringstream ss(input);
     ss >> cmd;
     if (commands.count(cmd) == 0)
-        throw std::invalid_argument("No command named " + cmd);
+        throw std::invalid_argument("No command named " + cmd + ".");
 
-    args = ss.str();
-}
-
-void  Application::clearConsole() {
-    std::cout << "\e[1;1H\e[2J";  // RegEx using ANSI escape codes
+    std::getline(ss, args);
+    if (!args.empty() && args[0] == ' ')
+        args = args.substr(1);
 }

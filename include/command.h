@@ -9,6 +9,11 @@ public:
     virtual void execute(const std::string& args, BlackBoard& board) = 0;
 };
 
+class HelpCommand : public Command {
+public:
+    void execute(const std::string& args, BlackBoard& board) override;
+};
+
 class DrawCommand : public Command {
 public:
     void execute(const std::string& args, BlackBoard& board) override;

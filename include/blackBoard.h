@@ -6,13 +6,14 @@
 
 class BlackBoard {
 public:
-    BlackBoard();
+    BlackBoard(int width, int length);
 
     ShapeFactory* getShapeFactory() const;
     bool isEmpty() const;
 
     void addShape(const std::shared_ptr<Shape>& shape);
     void removeLastShape();
+    bool isUniqueShape(const std::shared_ptr<Shape>& newShape);
     void listShapes() const;
     void saveShapes(std::fstream& file) const;
     void draw() const;
@@ -22,6 +23,5 @@ private:
     grid boardGrid;  // stores counters of shapes including the point
     std::vector<std::shared_ptr<Shape>> shapes;
     std::unique_ptr<ShapeFactory> shapeFactory;
-    int width, length;
 };
 

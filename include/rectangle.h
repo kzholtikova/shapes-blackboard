@@ -15,6 +15,6 @@ public:
 
 class Line : public Rectangle {  // left end as a vertice
 public:
-    Line(int x, int y, int size, int angle) : Rectangle(x, y, angle == 0 ? size : angle, angle == 0 ? angle : size) { };
+    Line(int x, int y, int angle, int size) : Rectangle(x, y, angle == 0 ? size : 0, angle == 0 ? 0 : size) { };
     std::string toString() override;
 };

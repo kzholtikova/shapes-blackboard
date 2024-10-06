@@ -5,48 +5,58 @@
 #include "../include/triangle.h"
 
 
-ShapeFactory::ShapeFactory(int boardWidth, int boardLength) {
-    std::string pointRegex = "^[0-" + std::to_string(boardWidth) + "] [0-" + std::to_string(boardLength) + "]";
-
-    shapesParameters["circle"] = pointRegex + " [2-" + std::to_string(boardWidth / 2) + "]$";
-    shapesParameters["line"] = pointRegex + " [1-9]+ [0|90]$";
-    shapesParameters["rectangle"] = pointRegex + " [1-" + std::to_string(boardWidth) + "] [1-" + std::to_string(boardLength) + "]";
-    shapesParameters["triangle"] = pointRegex + " [1-" + std::to_string(boardLength) + "]$";
-}
+std::vector<std::string> ShapeFactory::shapes = { "circle", "triangle", "rectangle", "line" };
 
 std::shared_ptr<Shape> ShapeFactory::createShape(const std::string& args) {
-    std::string shape = validateShape(args);
-    std::vector<int> parameters = validateParameters(shape, args.substr(shape.size()));
+    std::stringstream ss(args);
+    std::string shape, xStr, yStr, param, rest;
+    ss >> shape >> xStr >> yStr >> param >> rest;
 
-    if (shape == "circle")
-        return  std::make_shared<Circle>(parameters[0], parameters[1], parameters[2]);
-    if (shape == "line")
-        return std::make_shared<Line>(parameters[0], parameters[1], parameters[2], parameters[3]);
+    validateShape(shape);
+    int x = isNumberInRange(xStr, 0, maxX), y = isNumberInRange(yStr, 0, maxY);
+
+    if (shape == "circle" && rest.empty())
+        return  std::make_shared<Circle>(x, y,isNumberInRange(param, 2, maxY/2));
+    if (shape == "line") {
+        int angle = isNumberInRange(param, { 0, 90 });
+        return std::make_shared<Line>(x, y, angle, isNumberInRange(rest, 1, angle == 0 ? maxX : maxY));
+    }
     if (shape == "rectangle")
-        return std::make_shared<Rectangle>(parameters[0], parameters[1], parameters[2], parameters[3]);
-    if (shape == "triangle")
-        return std::make_shared<Triangle>(parameters[0], parameters[1], parameters[2]);
+        return std::make_shared<Rectangle>(x, y, isNumberInRange(param, 1, maxX), isNumberInRange(rest, 1, maxY));
+    if (shape == "triangle" && rest.empty())
+        return std::make_shared<Triangle>(x, y, isNumberInRange(param, 1, maxY));
 
     throw std::invalid_argument("Invalid shape.");
 }
 
 
-std::string ShapeFactory::validateShape(const std::string &args) {
-    size_t firstSpace = args.find_first_of(' ');
-    if (firstSpace == std::string::npos || firstSpace + 1 == args.size())
+void ShapeFactory::validateShape(const std::string& shape) {
+    if (shape.empty())
         throw std::invalid_argument("Invalid arguments.");
 
-    std::string shape = args.substr(0, firstSpace);
-    if (!shapesParameters.count(shape))
+    if (std::find(shapes.begin(), shapes.end(), shape) == shapes.end())
         throw std::invalid_argument("Invalid shape.");
-
-    return shape;
 }
 
-std::vector<int> ShapeFactory::validateParameters(const std::string& shape, const std::string& parametersStr) {
-    if (!std::regex_match(parametersStr, shapesParameters[shape]))
-        throw std::invalid_argument("Invalid parameters for a " + shape + ".");
+int ShapeFactory::isNumberInRange(const std::string& arg, int from, int to) {
+    int number = isNumber(arg);
+    if(number < from || number > to)
+        throw std::invalid_argument("Parameter " + arg + " should be in the range " +
+                                    std::to_string(from) + "-" + std::to_string(to) + ".");
 
-    std::istringstream iss(parametersStr);
-    return { (std::istream_iterator<int>(iss)), std::istream_iterator<int>() };
+    return number;
+}
+
+int ShapeFactory::isNumberInRange(const std::string& arg, std::vector<int> values) {
+    int number = isNumber(arg);
+    if(std::find(values.begin(), values.end(), number) == values.end())
+        throw std::invalid_argument("Unsupported value near " + arg + ".");
+
+    return number;
+}
+
+int ShapeFactory::isNumber(const std::string& arg) {
+    if (!std::all_of(arg.begin(), arg.end(), ::isdigit))
+        throw std::invalid_argument("Invalid argument near " + arg + ".");
+    return std::stoi(arg);
 }

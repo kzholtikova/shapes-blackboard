@@ -26,5 +26,5 @@ std::string Rectangle::toString() {
 }
 
 std::string Line::toString() {
-    return "line " + vertice.toString() + " " + std::to_string(width != 0 ? width : length) + " " + std::to_string(width != 0 ? 0 : 90);
+    return "line " + vertice.toString() + " " + std::to_string(width != 0 ? 0 : 90) + " " + std::to_string(width != 0 ? width : length);
 }

@@ -2,9 +2,8 @@
 #include <fstream>
 
 
-BlackBoard::BlackBoard() {
-    width = 165, length = 10;
-    shapeFactory = std::make_unique<ShapeFactory>(width, length);
+BlackBoard::BlackBoard(int width, int length) {
+    shapeFactory = std::make_unique<ShapeFactory>(width - 1, length - 1);
     boardGrid = grid(length, std::vector<std::vector<std::weak_ptr<Shape>>>(width));
 }
 
@@ -47,9 +46,17 @@ void BlackBoard::removeLastShape() {
     shapes.pop_back();
 }
 
+bool BlackBoard::isUniqueShape(const std::shared_ptr<Shape>& newShape) {
+    for (const auto& shape : shapes) {
+        if (typeid(*shape) == typeid(*newShape) && shape->toString() == newShape->toString())
+            return false;
+    }
+    return true;
+}
+
 void BlackBoard::listShapes() const {
     for (const auto& shape : shapes)
-        std::cout << shape->toString();
+        std::cout << shape->toString() << "\n";
 }
 
 void BlackBoard::saveShapes(std::fstream& file) const {

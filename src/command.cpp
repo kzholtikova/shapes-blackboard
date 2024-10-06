@@ -9,9 +9,20 @@ void Command::execute(const std::string& args, BlackBoard &board) {
         throw std::invalid_argument("Excessive arguments.");
 }
 
+void HelpCommand::execute(const std::string &args, BlackBoard &board) {
+    std::cout << "draw: draws blackboard to the console\n"
+              << "list: info about all added shapes\n"
+              << "shapes: info about available shapes\n"
+              << "add [shape] [x] [y] [parameters]\n"
+              << "undo: removes the last added shape\n"
+              << "clear: removes all shapes\n"
+              << "save [filepath]: saves blackboard to the file\n"
+              << "load [filepath]: loads blackboard from the file\n"
+              << "exit: ends the program\n";
+}
+
 void DrawCommand::execute(const std::string& args, BlackBoard& board) {
     Command::execute(args, board);
-    Application::clearConsole();
     board.draw();
 }
 
@@ -29,7 +40,10 @@ void ShapesCommand::execute(const std::string& args, BlackBoard& board) {
 }
 
 void AddCommand::execute(const std::string& args, BlackBoard &board) {
-    board.addShape(board.getShapeFactory()->createShape(args));
+    auto shape = board.getShapeFactory()->createShape(args);
+    if (!board.isUniqueShape(shape))
+        throw std::invalid_argument(args + " already exists.");
+    board.addShape(shape);
 }
 
 void UndoCommand::execute(const std::string& args, BlackBoard& board) {
@@ -50,6 +64,8 @@ void SaveCommand::execute(const std::string& args, BlackBoard& board) {
 }
 
 void LoadCommand::execute(const std::string& args, BlackBoard& board) {
+    board.clear();
+
     FileHandle fileHandle(args, std::ios::in);
     auto& file = fileHandle.getStream();
 
