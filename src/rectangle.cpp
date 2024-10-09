@@ -1,6 +1,10 @@
 #include "../include/rectangle.h"
 
 
+Rectangle::Rectangle(bool filled, std::string color, std::vector<int> params) : Shape(params[0], params[1], filled, color), width(params[2]), length(params[3]) {
+    // !!!!!
+};
+
 void Rectangle::draw(grid& grid) {
     std::shared_ptr<Shape> self = shared_from_this();
 

@@ -6,7 +6,7 @@ class Circle : public Shape {  // center as a vertice
 private:
     int radius;
 public:
-    Circle(int x, int y, int circleRadius) : Shape(x, y), radius(circleRadius) { };
+    Circle(bool filled, std::string color, std::vector<int> parameters);
 
     void draw(grid& grid) override;
     std::string toString() override;

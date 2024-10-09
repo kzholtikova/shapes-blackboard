@@ -1,6 +1,10 @@
 #include "../include/triangle.h"
 
 
+Triangle::Triangle(bool filled, std::string color, std::vector<int> params) : Shape(params[0], params[1], filled, color), height(params[2]) {
+        // !!!!
+}
+
 void Triangle::draw(grid& grid) {
     std::shared_ptr<Shape> self = shared_from_this();
 

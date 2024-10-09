@@ -4,16 +4,13 @@
 
 
 class ShapeFactory {
-private:
-    static std::vector<std::string> shapes;
-    int maxX, maxY;
-
-    void validateShape(const std::string& shape);
-    int isNumber(const std::string& arg);
-    int isNumberInRange(const std::string& arg, int from, int to);
-    int isNumberInRange(const std::string& arg, std::vector<int> values);
 public:
-    ShapeFactory(int boardWidth, int boardLength) : maxX(boardWidth), maxY(boardLength) { };
+    static std::map<std::string, std::function<std::shared_ptr<Shape>(bool, std::string, const std::vector<int>&)>> shapeConstructors;
 
-    std::shared_ptr<Shape> createShape(const std::string& args);
+    template <typename ShapeType>
+    static std::shared_ptr<Shape> createShape(bool, std::string, const std::vector<int>& params);
+    static std::string getValidShapeType(const std::string& shape);
+    static std::vector<int> getValidParameters(const std::vector<std::string>& strParams);
+    static bool isFilled(const std::string& style);
+    static std::string getValidColor(const std::string& color);
 };

@@ -3,12 +3,9 @@
 
 
 BlackBoard::BlackBoard(int width, int length) {
-    shapeFactory = std::make_unique<ShapeFactory>(width - 1, length - 1);
+    Point::maxX = width - 1;
+    Point::maxY = length - 1;
     boardGrid = grid(length, std::vector<std::vector<std::weak_ptr<Shape>>>(width));
-}
-
-ShapeFactory* BlackBoard::getShapeFactory() const {
-    return shapeFactory.get();
 }
 
 bool BlackBoard::isEmpty() const {

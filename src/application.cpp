@@ -17,10 +17,9 @@ void Application::run() {
     std::string input;
     std::cout << "Enter command (help/ exit): ";
     while (std::getline(std::cin, input) && input != "exit") {
-        std::string cmd, args;
         try {
-            readCommand(input, cmd, args);
-            commands[cmd]->execute(args, board);
+            auto cmd = readCommand(input);
+            commands[cmd]->execute(readArguments(input.substr(cmd.size() + 1)), board);
         } catch (std::invalid_argument& e){
             std::cout << "Error: " << e.what() << std::endl;
         }
@@ -29,13 +28,22 @@ void Application::run() {
     }
 }
 
-void Application::readCommand(const std::string& input, std::string& cmd, std::string& args) {
+std::string Application::readCommand(const std::string& input) {
     std::stringstream ss(input);
+    std::string cmd;
     ss >> cmd;
+
     if (commands.count(cmd) == 0)
         throw std::invalid_argument("No command named " + cmd + ".");
+    return cmd;
+}
 
-    std::getline(ss, args);
-    if (!args.empty() && args[0] == ' ')
-        args = args.substr(1);
+std::vector<std::string> Application::readArguments(const std::string& input) {
+    std::stringstream ss(input);
+    std::string arg;
+    std::vector<std::string> args;
+    while (ss >> arg)
+        args.emplace_back(arg);
+
+    return args;
 }

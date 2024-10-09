@@ -1,24 +1,18 @@
 #pragma once
-#include <iostream>
-#include <regex>
+#include "point.h"
 
 
-struct Point {
-    int x;
-    int y;
-
-    Point(int x, int y) : x(x), y(y) { };
-    std::string toString() const;
-};
 
 class Shape : public std::enable_shared_from_this<Shape> {
 protected:
     static int lastId;
     int id;
     Point vertice;
+    bool filled;
+    std::string color;
 
     using grid = std::vector<std::vector<std::vector<std::weak_ptr<Shape>>>>;
-    Shape(int x, int y) : vertice(x, y), id(++lastId) { }
+    explicit Shape(int x, int y, bool isFilled, std::string color) : vertice(Point(x, y)), filled(isFilled), color(color), id(++lastId) { }
 public:
     virtual ~Shape() = default;
     int getId() const;
