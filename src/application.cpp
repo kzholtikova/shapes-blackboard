@@ -19,7 +19,7 @@ void Application::run() {
     while (std::getline(std::cin, input) && input != "exit") {
         try {
             auto cmd = readCommand(input);
-            commands[cmd]->execute(readArguments(input.substr(cmd.size() + 1)), board);
+            commands[cmd]->execute(readArguments(input.substr(cmd.size())), board);
         } catch (std::invalid_argument& e){
             std::cout << "Error: " << e.what() << std::endl;
         }

@@ -14,7 +14,7 @@ void HelpCommand::execute(const std::vector<std::string> &args, BlackBoard &boar
     std::cout << "draw: draws blackboard to the console\n"
               << "list: info about all added shapes\n"
               << "shapes: info about available shapes\n"
-              << "add [shape] [x] [y] [parameters]\n"
+              << "add [shape] [filled/frame] [color] [x] [y] [parameters]\n"
               << "undo: removes the last added shape\n"
               << "clear: removes all shapes\n"
               << "save [filepath]: saves blackboard to the file\n"
@@ -65,6 +65,7 @@ void UndoCommand::execute(const std::vector<std::string>& args, BlackBoard& boar
 void ClearCommand::execute(const std::vector<std::string>& args, BlackBoard& board) {
     Command::execute(args, board);
     board.clear();
+    Shape::resetLastID();
 }
 
 void SaveCommand::execute(const std::vector<std::string>& args, BlackBoard& board) {
@@ -82,7 +83,7 @@ void LoadCommand::execute(const std::vector<std::string>& args, BlackBoard& boar
     FileHandle fileHandle(args[0], std::ios::in);
     auto& file = fileHandle.getStream();
 
-    board.clear();
+    ClearCommand().execute({}, board);
 
     std::string line;
     while (std::getline(file, line))

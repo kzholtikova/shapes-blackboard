@@ -1,6 +1,7 @@
 #include "../include/point.h"
 
 
+int Point::maxX, Point::maxY = -1;
 
 std::string Point::toString() const {
     return std::to_string(x) + " " + std::to_string(y);

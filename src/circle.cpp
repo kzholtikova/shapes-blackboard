@@ -1,8 +1,9 @@
 #include "../include/circle.h"
 
 
-Circle::Circle(bool filled, std::string color, std::vector<int> params) : Shape(params[0], params[1], filled, color), radius(params[2]) {
-    // !!!!
+Circle::Circle(bool filled, const std::string& color, std::vector<int> params) : Shape(params[0], params[1], filled, color), radius(params[2]) {
+    if (2 * radius > std::max(Point::maxX, Point::maxY))
+        throw std::invalid_argument("Radius is out of bonds.");
 };
 
 void Circle::draw(grid& grid) {

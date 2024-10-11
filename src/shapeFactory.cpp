@@ -1,11 +1,12 @@
 #include <sstream>
 #include "../include/shapeFactory.h"
+#include "../include/blackBoard.h"
 #include "../include/circle.h"
 #include "../include/triangle.h"
 #include "../include/line.h"
 
 
-std::map<std::string, std::function<std::shared_ptr<Shape>(bool, std::string, const std::vector<int>&)>> shapeConstructors = {
+std::map<std::string, std::function<std::shared_ptr<Shape>(bool, std::string, const std::vector<int>&)>> ShapeFactory::shapeConstructors = {
         {"circle", ShapeFactory::createShape<Circle>},
         {"line", ShapeFactory::createShape<Line>},
         {"rectangle", ShapeFactory::createShape<Rectangle>},
@@ -13,7 +14,7 @@ std::map<std::string, std::function<std::shared_ptr<Shape>(bool, std::string, co
 };
 
 template<typename ShapeType>
-std::shared_ptr<Shape> ShapeFactory::createShape(bool filled, std::string color,  const std::vector<int> &params) {
+std::shared_ptr<Shape> ShapeFactory::createShape(bool filled, const std::string& color,  const std::vector<int> &params) {
     return std::make_shared<ShapeType>(filled, color, params);
 }
 
@@ -24,15 +25,12 @@ std::string ShapeFactory::getValidShapeType(const std::string& shape) {
 }
 
 std::vector<int> ShapeFactory::getValidParameters(const std::vector<std::string> &strParams) {
-    if (!std::all_of(strParams.begin(), strParams.end(), [](const std::string& str) {
-        return !str.empty() && std::all_of(str.begin(), str.end(), ::isdigit);
-    }))
-        throw std::invalid_argument("");
-
     std::vector<int> params;
-    std::transform(strParams.begin(), strParams.end(), params.begin(), [](const std::string& str) {
-        return std::stoi(str);
-    });
+    for (auto param : strParams) {
+        if (param.empty() || !std::all_of(param.begin(), param.end(), ::isdigit))
+            throw std::invalid_argument("Parameters must be numeric.");
+        params.emplace_back(std::stoi(param));
+    }
 
     return params;
 }
@@ -47,28 +45,7 @@ bool ShapeFactory::isFilled(const std::string &style) {
 }
 
 std::string ShapeFactory::getValidColor(const std::string& color) {
+    if (BlackBoard::colors.count(color) == 0)
+        throw std::invalid_argument("Invalid color! Please choose from white, red, green, blue, yellow, magenta.");
     return color;
 }
-
-//int ShapeFactory::isNumberInRange(const std::string& arg, int from, int to) {
-//    int number = isNumber(arg);
-//    if(number < from || number > to)
-//        throw std::invalid_argument("Parameter " + arg + " should be in the range " +
-//                                    std::to_string(from) + "-" + std::to_string(to) + ".");
-//
-//    return number;
-//}
-//
-//int ShapeFactory::isNumberInRange(const std::string& arg, std::vector<int> values) {
-//    int number = isNumber(arg);
-//    if(std::find(values.begin(), values.end(), number) == values.end())
-//        throw std::invalid_argument("Unsupported value near " + arg + ".");
-//
-//    return number;
-//}
-//
-//int ShapeFactory::isNumber(const std::string& arg) {
-//    if (arg.empty() || !std::all_of(arg.begin(), arg.end(), ::isdigit))
-//        throw std::invalid_argument("Invalid argument near " + arg + ".");
-//    return std::stoi(arg);
-//}

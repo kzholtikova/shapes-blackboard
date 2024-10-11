@@ -1,9 +1,10 @@
 #include "../include/rectangle.h"
 
 
-Rectangle::Rectangle(bool filled, std::string color, std::vector<int> params) : Shape(params[0], params[1], filled, color), width(params[2]), length(params[3]) {
-    // !!!!!
-};
+Rectangle::Rectangle(bool filled, const std::string& color, std::vector<int> params) : Shape(params[0], params[1], filled, color), width(params[2]), length(params[3]) {
+    if (width > Point::maxX || length > Point::maxY)
+        throw std::invalid_argument("Size is out of bounds.");
+}
 
 void Rectangle::draw(grid& grid) {
     std::shared_ptr<Shape> self = shared_from_this();
@@ -27,8 +28,4 @@ void Rectangle::draw(grid& grid) {
 
 std::string Rectangle::toString() {
     return "rectangle " + vertice.toString() + " " + std::to_string(width) + " " + std::to_string(length);
-}
-
-std::string Line::toString() {
-    return "line " + vertice.toString() + " " + std::to_string(width != 0 ? 0 : 90) + " " + std::to_string(width != 0 ? width : length);
 }

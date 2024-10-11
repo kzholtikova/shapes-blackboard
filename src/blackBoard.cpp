@@ -2,6 +2,15 @@
 #include <fstream>
 
 
+std::map<std::string, std::string> BlackBoard::colors = {
+        {"white", "37"},
+        {"red", "31"},
+        {"green", "32"},
+        {"yellow", "33"},
+        {"blue", "34"},
+        {"magenta", "35"},
+};
+
 BlackBoard::BlackBoard(int width, int length) {
     Point::maxX = width - 1;
     Point::maxY = length - 1;
@@ -12,16 +21,18 @@ bool BlackBoard::isEmpty() const {
     return shapes.empty();
 }
 
-void BlackBoard::draw() const {
+void BlackBoard::draw() {
     for (auto& col : boardGrid) {
         for (auto& cell : col) {
             bool printed = false;
-            for (auto it = cell.rbegin(); it != cell.rend(); ++it) {
-                if (auto shape = it->lock()) {
-                    std::cout << shape->getId();
+            while (!cell.empty()) {
+                if (auto shape = cell.back().lock()) {
+                    std::string color = shape->getColor();
+                    std::cout << "\033[" + colors[color] + "m" + color.front() + "\033[0m";
                     printed = true;
                     break;
-                }
+                } else
+                    cell.pop_back();
             }
             if (!printed)
                 std::cout << ' ';

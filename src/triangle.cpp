@@ -1,15 +1,17 @@
 #include "../include/triangle.h"
 
 
-Triangle::Triangle(bool filled, std::string color, std::vector<int> params) : Shape(params[0], params[1], filled, color), height(params[2]) {
-        // !!!!
+Triangle::Triangle(bool filled, const std::string& color, std::vector<int> params) : Shape(params[0], params[1], filled, color), height(params[2]) {
+    if (height > Point::maxY || 2 * height > Point::maxX)
+        throw std::invalid_argument("Height is out of bounds.");
 }
 
 void Triangle::draw(grid& grid) {
     std::shared_ptr<Shape> self = shared_from_this();
 
     grid[vertice.y][vertice.x].emplace_back(self);
-    grid[vertice.y + height][vertice.x].emplace_back(self);
+    if (vertice.y + height < grid.size())
+        grid[vertice.y + height][vertice.x].emplace_back(self);
 
     for (int i = 0; i < height + 1; i++) {
         if (vertice.y + i < grid.size() && vertice.x - i >= 0)
