@@ -13,3 +13,11 @@ int Shape::getId() const {
 std::string Shape::getColor() const {
     return color;
 }
+
+void Shape::paint(const std::string& newColor) {
+    color = newColor;
+}
+
+std::string Shape::getStyle() const {
+    return filled ? "filled" : "frame";
+}

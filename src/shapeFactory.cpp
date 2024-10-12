@@ -1,10 +1,18 @@
 #include <sstream>
 #include "../include/shapeFactory.h"
-#include "../include/blackBoard.h"
 #include "../include/circle.h"
 #include "../include/triangle.h"
 #include "../include/line.h"
 
+
+std::map<std::string, std::string> ShapeFactory::colors = {
+        {"white", "37"},
+        {"red", "31"},
+        {"green", "32"},
+        {"yellow", "33"},
+        {"blue", "34"},
+        {"magenta", "35"},
+};
 
 std::map<std::string, std::function<std::shared_ptr<Shape>(bool, std::string, const std::vector<int>&)>> ShapeFactory::shapeConstructors = {
         {"circle", ShapeFactory::createShape<Circle>},
@@ -16,6 +24,12 @@ std::map<std::string, std::function<std::shared_ptr<Shape>(bool, std::string, co
 template<typename ShapeType>
 std::shared_ptr<Shape> ShapeFactory::createShape(bool filled, const std::string& color,  const std::vector<int> &params) {
     return std::make_shared<ShapeType>(filled, color, params);
+}
+
+std::shared_ptr<Shape> ShapeFactory::createValidShape(const std::vector<std::string>& args) {
+    validateNumberOfArguments(args, 6);
+    std::vector<int> params = getValidParameters({args.begin() + 3, args.end()});
+    return shapeConstructors[getValidShapeType(args[0])](isFilled(args[1]), getValidColor(args[2]), params);
 }
 
 std::string ShapeFactory::getValidShapeType(const std::string& shape) {
@@ -45,7 +59,12 @@ bool ShapeFactory::isFilled(const std::string &style) {
 }
 
 std::string ShapeFactory::getValidColor(const std::string& color) {
-    if (BlackBoard::colors.count(color) == 0)
+    if (colors.count(color) == 0)
         throw std::invalid_argument("Invalid color! Please choose from white, red, green, blue, yellow, magenta.");
     return color;
+}
+
+void ShapeFactory::validateNumberOfArguments(const std::vector<std::string> &args, int required) {
+    if (args.size() != required)
+        throw std::invalid_argument("Invalid number of arguments.");
 }

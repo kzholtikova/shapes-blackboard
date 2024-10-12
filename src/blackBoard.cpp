@@ -2,43 +2,21 @@
 #include <fstream>
 
 
-std::map<std::string, std::string> BlackBoard::colors = {
-        {"white", "37"},
-        {"red", "31"},
-        {"green", "32"},
-        {"yellow", "33"},
-        {"blue", "34"},
-        {"magenta", "35"},
-};
-
-BlackBoard::BlackBoard(int width, int length) {
+BlackBoard::BlackBoard(int width, int length) : boardGrid(width, length) {
     Point::maxX = width - 1;
     Point::maxY = length - 1;
-    boardGrid = grid(length, std::vector<std::vector<std::weak_ptr<Shape>>>(width));
+}
+
+std::unique_ptr<Grid> BlackBoard::getGrid() const {
+    return std::make_unique<Grid>(boardGrid);
+}
+
+std::weak_ptr<Shape> BlackBoard::getSelectedShape() const {
+    return selectedShape;
 }
 
 bool BlackBoard::isEmpty() const {
     return shapes.empty();
-}
-
-void BlackBoard::draw() {
-    for (auto& col : boardGrid) {
-        for (auto& cell : col) {
-            bool printed = false;
-            while (!cell.empty()) {
-                if (auto shape = cell.back().lock()) {
-                    std::string color = shape->getColor();
-                    std::cout << "\033[" + colors[color] + "m" + color.front() + "\033[0m";
-                    printed = true;
-                    break;
-                } else
-                    cell.pop_back();
-            }
-            if (!printed)
-                std::cout << ' ';
-        }
-        std::cout << "\n";
-    }
 }
 
 void BlackBoard::clear() {
@@ -47,7 +25,13 @@ void BlackBoard::clear() {
 
 void BlackBoard::addShape(const std::shared_ptr<Shape>& shape) {
     shapes.emplace_back(shape);
-    shape->draw(boardGrid);
+    boardGrid.addShapePoints(shape);
+    selectedShape = shape;
+}
+
+void BlackBoard::replaceSelectedShape(const std::shared_ptr<Shape> &shape) {
+    shapes[findShapeIndex(shape->getId())] = shape;
+    selectedShape = shape;
 }
 
 void BlackBoard::removeLastShape() {

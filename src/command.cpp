@@ -24,7 +24,7 @@ void HelpCommand::execute(const std::vector<std::string> &args, BlackBoard &boar
 
 void DrawCommand::execute(const std::vector<std::string>& args, BlackBoard& board) {
     Command::execute(args, board);
-    board.draw();
+    board.getGrid()->show();
 }
 
 void ListCommand::execute(const std::vector<std::string>& args, BlackBoard& board) {
@@ -41,16 +41,9 @@ void ShapesCommand::execute(const std::vector<std::string>& args, BlackBoard& bo
 }
 
 void AddCommand::execute(const std::vector<std::string>& args, BlackBoard &board) {
-    if (args.size() < 6)
-        throw std::invalid_argument("Insufficient arguments.");
-
-    std::vector<int> params = ShapeFactory::getValidParameters({args.begin() + 3, args.end()});
-    std::shared_ptr<Shape> shape = ShapeFactory::shapeConstructors[ShapeFactory::getValidShapeType(args[0])]
-            (ShapeFactory::isFilled(args[1]), ShapeFactory::getValidColor(args[2]), params);
-
+    auto shape = ShapeFactory::createValidShape(args);
     if (!board.isUniqueShape(shape))
         throw std::invalid_argument(args[0] + " already exists.");
-
     board.addShape(shape);
 }
 
@@ -69,16 +62,14 @@ void ClearCommand::execute(const std::vector<std::string>& args, BlackBoard& boa
 }
 
 void SaveCommand::execute(const std::vector<std::string>& args, BlackBoard& board) {
-    if (args.size() != 1)
-        throw std::invalid_argument("Invalid number of arguments.");
+    ShapeFactory::validateNumberOfArguments(args, 1);
 
     FileHandle fileHandle(args[0], std::ios::out);
     board.saveShapes(fileHandle.getStream());
 }
 
 void LoadCommand::execute(const std::vector<std::string>& args, BlackBoard& board) {
-    if (args.size() != 1)
-        throw std::invalid_argument("Invalid number of arguments.");
+    ShapeFactory::validateNumberOfArguments(args, 1);
 
     FileHandle fileHandle(args[0], std::ios::in);
     auto& file = fileHandle.getStream();
@@ -88,4 +79,36 @@ void LoadCommand::execute(const std::vector<std::string>& args, BlackBoard& boar
     std::string line;
     while (std::getline(file, line))
         AddCommand().execute(Application::readArguments(line), board);
+}
+
+void EditCommand::execute(const std::vector<std::string> &args, BlackBoard &board) {
+    auto selectedShape = board.getSelectedShape().lock();
+    std::vector<std::string> shapeProperties = { selectedShape->getType(), selectedShape->getStyle(), selectedShape->getColor() };
+    shapeProperties.insert(shapeProperties.begin(), args.begin(), args.end());
+    auto newShape = ShapeFactory::createValidShape(shapeProperties);
+    
+    board.replaceSelectedShape(newShape);
+}
+
+void MoveCommand::execute(const std::vector<std::string>& args, BlackBoard& board) {
+    ShapeFactory::validateNumberOfArguments(args, 2);
+    std::vector<std::string> fullArgs = Application::readArguments(board.getSelectedShape().lock()->toString());
+    fullArgs[3] = args[0];
+    fullArgs[4] = args[1];
+    auto newShape = ShapeFactory::createValidShape(fullArgs);
+
+    board.replaceSelectedShape(newShape);
+}
+
+void PaintCommand::execute(const std::vector<std::string> &args, BlackBoard &board) {
+    ShapeFactory::validateNumberOfArguments(args, 1);
+    if (board.isEmpty())
+        throw std::invalid_argument("No selected shape!");
+
+    std::string color = ShapeFactory::getValidColor(args[0]);
+    board.getSelectedShape().lock()->paint(color);
+}
+
+void SelectCommand::execute(const std::vector<std::string> &args, BlackBoard &board) {
+
 }

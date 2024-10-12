@@ -16,8 +16,13 @@ public:
     virtual ~Shape() = default;
     static void resetLastID();
     int getId() const;
+    virtual std::string getType() const = 0;
+    std::string getStyle() const;
     std::string getColor() const;
 
-    virtual void draw(grid& grid) = 0;
+    virtual std::vector<Point> getPoints() const = 0;
+    void paint(const std::string& newColor);
+
+    virtual void validateParameters(const std::vector<int>& parameters) = 0;
     virtual std::string toString() = 0;
 };

@@ -53,3 +53,23 @@ class LoadCommand : public Command {
 public:
     void execute(const std::vector<std::string>& args, BlackBoard& board) override;
 };
+
+class EditCommand : public Command {
+public:
+    void execute(const std::vector<std::string>& args, BlackBoard& board) override;
+};
+
+class MoveCommand : public Command {
+public:
+    void execute(const std::vector<std::string>& args, BlackBoard& board) override;
+};
+
+class PaintCommand : public Command {
+public:
+    void execute(const std::vector<std::string>& args, BlackBoard& board) override;
+};
+
+class SelectCommand : public Command {
+public:
+    void execute(const std::vector<std::string>& args, BlackBoard& board) override;
+};
