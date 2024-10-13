@@ -11,6 +11,10 @@ std::map<std::string, Command*> Application::commands = {
     {"clear", new ClearCommand},
     {"save", new SaveCommand},
     {"load", new LoadCommand},
+    {"edit", new EditCommand},
+    {"move", new MoveCommand},
+    {"paint", new PaintCommand},
+    {"select", new SelectCommand},
 };
 
 void Application::run() {
@@ -34,7 +38,7 @@ std::string Application::readCommand(const std::string& input) {
     ss >> cmd;
 
     if (commands.count(cmd) == 0)
-        throw std::invalid_argument("No command named " + cmd + ".");
+        throw std::invalid_argument("No command named `" + cmd + "`.");
     return cmd;
 }
 

@@ -16,6 +16,9 @@ public:
     void addShape(const std::shared_ptr<Shape>& shape);
     void replaceSelectedShape(const std::shared_ptr<Shape>& shape);
     void removeLastShape();
+    void selectShapeByID(int id);
+    void selectShapeByCoordinates(int x, int y);
+
     bool isUniqueShape(const std::shared_ptr<Shape>& newShape);
     void listShapes() const;
     void saveShapes(std::fstream& file) const;

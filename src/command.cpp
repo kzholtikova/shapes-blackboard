@@ -24,7 +24,7 @@ void HelpCommand::execute(const std::vector<std::string> &args, BlackBoard &boar
 
 void DrawCommand::execute(const std::vector<std::string>& args, BlackBoard& board) {
     Command::execute(args, board);
-    board.getGrid()->show();
+    board.getGrid()->show(board.getSelectedShape().lock());
 }
 
 void ListCommand::execute(const std::vector<std::string>& args, BlackBoard& board) {
@@ -58,7 +58,7 @@ void UndoCommand::execute(const std::vector<std::string>& args, BlackBoard& boar
 void ClearCommand::execute(const std::vector<std::string>& args, BlackBoard& board) {
     Command::execute(args, board);
     board.clear();
-    Shape::resetLastID();
+    ShapeFactory::resetLastId();
 }
 
 void SaveCommand::execute(const std::vector<std::string>& args, BlackBoard& board) {
@@ -83,10 +83,10 @@ void LoadCommand::execute(const std::vector<std::string>& args, BlackBoard& boar
 
 void EditCommand::execute(const std::vector<std::string> &args, BlackBoard &board) {
     auto selectedShape = board.getSelectedShape().lock();
-    std::vector<std::string> shapeProperties = { selectedShape->getType(), selectedShape->getStyle(), selectedShape->getColor() };
-    shapeProperties.insert(shapeProperties.begin(), args.begin(), args.end());
-    auto newShape = ShapeFactory::createValidShape(shapeProperties);
-    
+    std::vector<std::string> fullArgs = Application::readArguments(board.getSelectedShape().lock()->toString());
+    fullArgs.insert(fullArgs.begin() + 5, args.begin(), args.end());
+    auto newShape = ShapeFactory::createValidShape(fullArgs, board.getSelectedShape().lock()->getId());
+
     board.replaceSelectedShape(newShape);
 }
 
@@ -95,7 +95,7 @@ void MoveCommand::execute(const std::vector<std::string>& args, BlackBoard& boar
     std::vector<std::string> fullArgs = Application::readArguments(board.getSelectedShape().lock()->toString());
     fullArgs[3] = args[0];
     fullArgs[4] = args[1];
-    auto newShape = ShapeFactory::createValidShape(fullArgs);
+    auto newShape= ShapeFactory::createValidShape(fullArgs, board.getSelectedShape().lock()->getId());
 
     board.replaceSelectedShape(newShape);
 }
@@ -110,5 +110,11 @@ void PaintCommand::execute(const std::vector<std::string> &args, BlackBoard &boa
 }
 
 void SelectCommand::execute(const std::vector<std::string> &args, BlackBoard &board) {
-
+    auto params = ShapeFactory::getValidParameters(args);
+    if (params.size() == 1)
+        board.selectShapeByID(params[0]);
+    else if (params.size() == 2)
+        board.selectShapeByCoordinates(params[0], params[1]);
+    else
+        throw std::invalid_argument("Invalid arguments.");
 }

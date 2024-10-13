@@ -5,6 +5,7 @@
 #include "../include/line.h"
 
 
+int ShapeFactory::lastId = -1;
 std::map<std::string, std::string> ShapeFactory::colors = {
         {"white", "37"},
         {"red", "31"},
@@ -14,7 +15,11 @@ std::map<std::string, std::string> ShapeFactory::colors = {
         {"magenta", "35"},
 };
 
-std::map<std::string, std::function<std::shared_ptr<Shape>(bool, std::string, const std::vector<int>&)>> ShapeFactory::shapeConstructors = {
+void ShapeFactory::resetLastId() {
+    lastId = -1;
+}
+
+std::map<std::string, std::function<std::shared_ptr<Shape>(int, bool, std::string, const std::vector<int>&)>> ShapeFactory::shapeConstructors = {
         {"circle", ShapeFactory::createShape<Circle>},
         {"line", ShapeFactory::createShape<Line>},
         {"rectangle", ShapeFactory::createShape<Rectangle>},
@@ -22,14 +27,14 @@ std::map<std::string, std::function<std::shared_ptr<Shape>(bool, std::string, co
 };
 
 template<typename ShapeType>
-std::shared_ptr<Shape> ShapeFactory::createShape(bool filled, const std::string& color,  const std::vector<int> &params) {
-    return std::make_shared<ShapeType>(filled, color, params);
+std::shared_ptr<Shape> ShapeFactory::createShape(int id, bool filled, const std::string& color,  const std::vector<int> &params) {
+    return std::make_shared<ShapeType>(id, filled, color, params);
 }
 
-std::shared_ptr<Shape> ShapeFactory::createValidShape(const std::vector<std::string>& args) {
-    validateNumberOfArguments(args, 6);
+std::shared_ptr<Shape> ShapeFactory::createValidShape(const std::vector<std::string>& args, int id) {
+    validateNumberOfArguments(args, 6, false);
     std::vector<int> params = getValidParameters({args.begin() + 3, args.end()});
-    return shapeConstructors[getValidShapeType(args[0])](isFilled(args[1]), getValidColor(args[2]), params);
+    return shapeConstructors[getValidShapeType(args[0])](id, isFilled(args[1]), getValidColor(args[2]), params);
 }
 
 std::string ShapeFactory::getValidShapeType(const std::string& shape) {
@@ -64,7 +69,7 @@ std::string ShapeFactory::getValidColor(const std::string& color) {
     return color;
 }
 
-void ShapeFactory::validateNumberOfArguments(const std::vector<std::string> &args, int required) {
-    if (args.size() != required)
+void ShapeFactory::validateNumberOfArguments(const std::vector<std::string> &args, int num, bool required) {
+    if (args.size() < num || (required && args.size() != num))
         throw std::invalid_argument("Invalid number of arguments.");
 }

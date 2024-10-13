@@ -7,7 +7,7 @@ class Triangle : public Shape {  // top point as a vertice
 private:
     int height;
 public:
-    Triangle(bool filled, const std::string& color, std::vector<int> parameters);
+    Triangle(int id, bool filled, const std::string& color, std::vector<int> parameters);
     std::string getType() const override;
     std::vector<Point> getPoints() const override;
 

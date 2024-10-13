@@ -9,5 +9,6 @@ public:
     int y;
 
     Point(int x, int y);
+    static bool areValidCoordinates(int x, int y);
     std::string toString() const;
 };

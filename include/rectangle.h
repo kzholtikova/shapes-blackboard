@@ -7,7 +7,7 @@ protected:
     int width;
     int length;
 public:
-    Rectangle(bool filled, const std::string& color, std::vector<int> parameters);
+    Rectangle(int id, bool filled, const std::string& color, std::vector<int> parameters);
     std::string getType() const override;
     std::vector<Point> getPoints() const override;
 

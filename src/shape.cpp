@@ -1,10 +1,5 @@
 #include "../include/shape.h"
 
-int Shape::lastId = -1;
-
-void Shape::resetLastID() {
-    lastId = -1;
-}
 
 int Shape::getId() const {
     return id;
@@ -20,4 +15,8 @@ void Shape::paint(const std::string& newColor) {
 
 std::string Shape::getStyle() const {
     return filled ? "filled" : "frame";
+}
+
+std::string Shape::toString() {
+    return getType() + " " + getStyle() + " " + getColor() + " " + vertice.toString() + " ";
 }
