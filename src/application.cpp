@@ -7,7 +7,7 @@ std::map<std::string, Command*> Application::commands = {
     {"list", new ListCommand},
     {"shapes", new ShapesCommand},
     {"add", new AddCommand},
-    {"undo", new UndoCommand},
+    {"remove", new RemoveCommand},
     {"clear", new ClearCommand},
     {"save", new SaveCommand},
     {"load", new LoadCommand},

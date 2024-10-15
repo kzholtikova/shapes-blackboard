@@ -37,8 +37,8 @@ void BlackBoard::replaceSelectedShape(const std::shared_ptr<Shape> &shape) {
     selectedShape = shape;
 }
 
-void BlackBoard::removeLastShape() {
-    shapes.pop_back();
+void BlackBoard::removeSelectedShape() {
+    shapes.erase(shapes.begin() + findShapeIndex(selectedShape.lock()->getId()));
     selectedShape = shapes.empty() ? nullptr : shapes.back();
 }
 

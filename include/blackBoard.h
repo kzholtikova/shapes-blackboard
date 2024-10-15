@@ -15,7 +15,7 @@ public:
 
     void addShape(const std::shared_ptr<Shape>& shape);
     void replaceSelectedShape(const std::shared_ptr<Shape>& shape);
-    void removeLastShape();
+    void removeSelectedShape();
     void selectShapeByID(int id);
     void selectShapeByCoordinates(int x, int y);
 

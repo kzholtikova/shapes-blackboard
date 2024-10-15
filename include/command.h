@@ -34,7 +34,7 @@ public:
     void execute(const std::vector<std::string>& args, BlackBoard& board) override;
 };
 
-class UndoCommand : public Command {
+class RemoveCommand : public Command {
 public:
     void execute(const std::vector<std::string>& args, BlackBoard& board) override;
 };

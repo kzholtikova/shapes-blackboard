@@ -15,7 +15,11 @@ void HelpCommand::execute(const std::vector<std::string> &args, BlackBoard &boar
               << "list: info about all added shapes\n"
               << "shapes: info about available shapes\n"
               << "add [shape] [filled/frame] [color] [x] [y] [parameters]\n"
-              << "undo: removes the last added shape\n"
+              << "select [id/coordinates]\n"
+              << "edit: changes selected shape parameters\n"
+              << "move: changes selected shape vertice coordinates\n"
+              << "paint: changes selected shape color\n"
+              << "remove: removes selected shape\n"
               << "clear: removes all shapes\n"
               << "save [filepath]: saves blackboard to the file\n"
               << "load [filepath]: loads blackboard from the file\n"
@@ -34,10 +38,10 @@ void ListCommand::execute(const std::vector<std::string>& args, BlackBoard& boar
 
 void ShapesCommand::execute(const std::vector<std::string>& args, BlackBoard& board) {
     Command::execute(args, board);
-    std::cout << "circle coordinates radius\n"
-              << "triangle coordinates height\n"
-              << "rectangle coordinates width length\n"
-              << "line coordinates angle(0/ 90) length\n";
+    std::cout << "circle filled/frame white/red/green/blue/yellow/magenta x y radius\n"
+              << "triangle filled/frame white/red/green/blue/yellow/magenta x y height\n"
+              << "rectangle filled/frame white/red/green/blue/yellow/magenta x y width length\n"
+              << "line filled/frame white/red/green/blue/yellow/magenta x y angle(0/ 90) length\n";
 }
 
 void AddCommand::execute(const std::vector<std::string>& args, BlackBoard &board) {
@@ -47,12 +51,12 @@ void AddCommand::execute(const std::vector<std::string>& args, BlackBoard &board
     board.addShape(shape);
 }
 
-void UndoCommand::execute(const std::vector<std::string>& args, BlackBoard& board) {
+void RemoveCommand::execute(const std::vector<std::string>& args, BlackBoard& board) {
     Command::execute(args, board);
     if (board.isEmpty())
         throw std::invalid_argument("Nothing to undo!");
 
-    board.removeLastShape();
+    board.removeSelectedShape();
 }
 
 void ClearCommand::execute(const std::vector<std::string>& args, BlackBoard& board) {
