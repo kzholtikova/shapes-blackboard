@@ -1,27 +1,32 @@
 #pragma once
 #include <sys/ioctl.h>
 #include <unistd.h>
-#include "shapeFactory.h"
+#include "grid.h"
 
 
 class BlackBoard {
 public:
     BlackBoard(int width, int length);
 
-    ShapeFactory* getShapeFactory() const;
+    std::unique_ptr<Grid> getGrid() const;
+    std::weak_ptr<Shape> getSelectedShape() const;
     bool isEmpty() const;
+    void clear();
 
     void addShape(const std::shared_ptr<Shape>& shape);
-    void removeLastShape();
+    void replaceSelectedShape(const std::shared_ptr<Shape>& shape);
+    void removeSelectedShape();
+    void selectShapeByID(int id);
+    void selectShapeByCoordinates(int x, int y);
+
     bool isUniqueShape(const std::shared_ptr<Shape>& newShape);
     void listShapes() const;
     void saveShapes(std::fstream& file) const;
-    void draw() const;
-    void clear();
 private:
-    using grid = std::vector<std::vector<std::vector<std::weak_ptr<Shape>>>>;
-    grid boardGrid;  // stores counters of shapes including the point
+    Grid boardGrid;
     std::vector<std::shared_ptr<Shape>> shapes;
-    std::unique_ptr<ShapeFactory> shapeFactory;
+    std::weak_ptr<Shape> selectedShape;
+
+    int  findShapeIndex(int id);
 };
 

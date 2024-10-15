@@ -5,15 +5,19 @@
 
 class ShapeFactory {
 private:
-    static std::vector<std::string> shapes;
-    int maxX, maxY;
-
-    void validateShape(const std::string& shape);
-    int isNumber(const std::string& arg);
-    int isNumberInRange(const std::string& arg, int from, int to);
-    int isNumberInRange(const std::string& arg, std::vector<int> values);
+    static int lastId;
 public:
-    ShapeFactory(int boardWidth, int boardLength) : maxX(boardWidth), maxY(boardLength) { };
+    static std::map<std::string, std::string> colors;
+    static std::map<std::string, std::function<std::shared_ptr<Shape>(int, bool, std::string, const std::vector<int>&)>> shapeConstructors;
 
-    std::shared_ptr<Shape> createShape(const std::string& args);
+    template <typename ShapeType>
+    static std::shared_ptr<Shape> createShape(int id, bool filled, const std::string& color, const std::vector<int>& params);
+    static std::shared_ptr<Shape> createValidShape(const std::vector<std::string>& args, int id = ++lastId);
+
+    static void resetLastId();
+    static std::string getValidShapeType(const std::string& shape);
+    static std::vector<int> getValidParameters(const std::vector<std::string>& strParams);
+    static bool isFilled(const std::string& style);
+    static std::string getValidColor(const std::string& color);
+    static void validateNumberOfArguments(const std::vector<std::string>& args, int num, bool required = true);
 };

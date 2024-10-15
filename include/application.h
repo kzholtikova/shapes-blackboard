@@ -8,8 +8,9 @@ class Application {
 private:
     static std::map<std::string, Command*> commands;
     BlackBoard board = BlackBoard(165, 10);
-
-    void readCommand(const std::string& input, std::string& cmd, std::string& args);
 public:
     void run();
+
+    static std::string readCommand(const std::string& input);
+    static std::vector<std::string> readArguments(const std::string& input);
 };
