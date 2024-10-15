@@ -28,6 +28,8 @@ void HelpCommand::execute(const std::vector<std::string> &args, BlackBoard &boar
 
 void DrawCommand::execute(const std::vector<std::string>& args, BlackBoard& board) {
     Command::execute(args, board);
+    if (board.isEmpty())
+        throw std::invalid_argument("The board is empty!");
     board.getGrid()->show(board.getSelectedShape().lock());
 }
 
@@ -54,7 +56,7 @@ void AddCommand::execute(const std::vector<std::string>& args, BlackBoard &board
 void RemoveCommand::execute(const std::vector<std::string>& args, BlackBoard& board) {
     Command::execute(args, board);
     if (board.isEmpty())
-        throw std::invalid_argument("Nothing to undo!");
+        throw std::invalid_argument("The board is already empty!");
 
     board.removeSelectedShape();
 }
